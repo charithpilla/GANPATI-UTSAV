@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ganpati Utsav - Build. Celebrate. Play.</title>
+    <meta name="description" content="A beautiful Ganesh Chaturthi celebration game.">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        <!-- Intro Screen -->
+        <div id="screen-intro" class="screen active">
+            <div class="title-container">
+                <h1>GANPATI UTSAV</h1>
+                <p>Build. Celebrate. Play.</p>
+            </div>
+            <button class="btn" id="btn-start">START UTSAV</button>
+            <button class="btn btn-secondary" id="btn-how-to-play">HOW TO PLAY</button>
+        </div>
+
+        <!-- How To Play Screen -->
+        <div id="screen-how-to" class="screen">
+            <h2>How to Play</h2>
+            <div class="cards-container">
+                <div class="card">1. Decorate your pandal.</div>
+                <div class="card">2. Complete festival challenges.</div>
+                <div class="card">3. Make responsible festival choices.</div>
+                <div class="card">4. Complete the Utsav and get your score.</div>
+            </div>
+            <button class="btn" id="btn-lets-go">LET'S GO</button>
+        </div>
+
+        <!-- Stage 1: Pandal -->
+        <div id="screen-pandal" class="screen">
+            <div class="top-bar">
+                <span id="pandal-score">Score: 0</span>
+                <span id="pandal-timer">Time: 30</span>
+            </div>
+            <div class="game-area" id="pandal-area">
+                <!-- Clickable spots for decorations will be injected here -->
+            </div>
+            <button class="btn hidden" id="btn-pandal-next">NEXT</button>
+        </div>
+
+        <!-- Stage 2: Rangoli -->
+        <div id="screen-rangoli" class="screen">
+            <div class="top-bar">
+                <span id="rangoli-score">Score: 0</span>
+                <span id="rangoli-timer">Time: 20</span>
+            </div>
+            <canvas id="rangoli-canvas"></canvas>
+            <button class="btn hidden" id="btn-rangoli-next">NEXT</button>
+        </div>
+
+        <!-- Stage 3: Puja -->
+        <div id="screen-puja" class="screen">
+            <div class="top-bar">
+                <span id="puja-score">Score: 0</span>
+                <span id="puja-timer">Time: 15</span>
+            </div>
+            <div class="game-area" id="puja-area">
+                <!-- Falling/appearing items -->
+            </div>
+            <button class="btn hidden" id="btn-puja-next">NEXT</button>
+        </div>
+
+        <!-- Stage 4: Rhythm -->
+        <div id="screen-rhythm" class="screen">
+            <div class="top-bar">
+                <span id="rhythm-score">Score: 0</span>
+                <span id="rhythm-combo">Combo: x1</span>
+            </div>
+            <div class="game-area" id="rhythm-area">
+                <div class="rhythm-target"></div>
+                <!-- Moving notes -->
+            </div>
+            <div class="rhythm-controls">
+                <button class="rhythm-btn" data-type="dhol">🥁 DHOL</button>
+                <button class="rhythm-btn" data-type="tasha">🪘 TASHA</button>
+                <button class="rhythm-btn" data-type="clap">👏 CLAP</button>
+            </div>
+            <button class="btn hidden" id="btn-rhythm-next">NEXT</button>
+        </div>
+
+        <!-- Stage 5: Eco -->
+        <div id="screen-eco" class="screen">
+            <h2>Celebrate Responsibly</h2>
+            <div class="question-container" id="eco-question">
+                <!-- Question and choices injected via JS -->
+            </div>
+        </div>
+
+        <!-- Stage 6: Mushak Modak Sprint -->
+        <div id="screen-mushak" class="screen">
+            <div class="top-bar">
+                <span id="mushak-score">Score: 0</span>
+                <span id="mushak-timer">Time: 15</span>
+            </div>
+            <div class="game-area" id="mushak-area">
+                <div id="mushak-player">🐭</div>
+            </div>
+            <div class="mushak-controls">
+                <button class="mushak-btn" id="btn-mushak-left">◀ LEFT</button>
+                <button class="mushak-btn" id="btn-mushak-right">RIGHT ▶</button>
+            </div>
+            <button class="btn hidden" id="btn-mushak-next">NEXT</button>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="screen-result" class="screen">
+            <div class="result-card">
+                <h2>GANPATI UTSAV COMPLETE!</h2>
+                <p>Your celebration is ready.</p>
+                <div class="score-breakdown">
+                    <!-- Breakdown injected via JS -->
+                </div>
+                <h1 id="final-rank">FESTIVAL MASTER</h1>
+            </div>
+            <button class="btn" id="btn-play-again">PLAY AGAIN</button>
+            <button class="btn btn-secondary" id="btn-share">SHARE MY SCORE</button>
+        </div>
+
+        <!-- Toast notification -->
+        <div id="toast" class="toast hidden">Copied to clipboard!</div>
+
+        <!-- Global Instruction Overlay -->
+        <div class="instruction-overlay" id="global-instruction">
+            <p id="instruction-text">Instruction here</p>
+            <button class="btn" id="btn-start-stage">START</button>
+        </div>
+
+        <button id="sound-toggle">🔊</button>
+    </div>
+
+    <script src="js/state.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

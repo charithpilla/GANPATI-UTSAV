@@ -1,0 +1,503 @@
+:root {
+    --primary-red: #c1121f;
+    --dark-red: #780000;
+    --saffron: #fdf0d5;
+    --orange: #f77f00;
+    --gold: #ffb703;
+    --cream: #fff8eb;
+    --dark-charcoal: #111111;
+    --eco-green: #2a9d8f;
+
+    --font-heading: 'Outfit', sans-serif;
+    --font-body: 'Inter', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--dark-charcoal);
+    color: var(--cream);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+}
+
+#game-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    max-width: 450px;
+    max-height: 900px;
+    background-color: #222;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+    background: url('assets/images/bg_intro.png') center/cover no-repeat; /* Fallback global bg */
+}
+
+@media (min-width: 768px) {
+    #game-container {
+        border-radius: 20px;
+        height: 90vh;
+    }
+}
+
+/* Typography */
+h1, h2, h3 {
+    font-family: var(--font-heading);
+    text-align: center;
+}
+
+/* Reusable UI Components */
+.btn {
+    display: block;
+    width: 80%;
+    margin: 15px auto;
+    padding: 15px;
+    background: linear-gradient(45deg, var(--primary-red), var(--orange));
+    color: var(--cream);
+    border: none;
+    border-radius: 30px;
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(193, 18, 31, 0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-align: center;
+}
+
+.btn:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 5px rgba(193, 18, 31, 0.4);
+}
+
+.btn.hidden {
+    display: none !important;
+}
+
+.btn-secondary {
+    background: rgba(0,0,0,0.5);
+    border: 2px solid var(--gold);
+    color: var(--gold);
+    box-shadow: none;
+}
+
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+    z-index: 10;
+    background: rgba(17, 17, 17, 0.85);
+    backdrop-filter: blur(5px);
+}
+
+.screen.active {
+    opacity: 1;
+    pointer-events: all;
+    z-index: 20;
+}
+
+/* Specific Screens */
+#screen-intro {
+    background: transparent;
+    justify-content: flex-end;
+    padding-bottom: 50px;
+}
+
+.title-container {
+    text-align: center;
+    margin-bottom: 40px;
+    background: rgba(0,0,0,0.6);
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid var(--gold);
+}
+
+.title-container h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--gold);
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+    margin-bottom: 10px;
+}
+
+.title-container p {
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    color: var(--saffron);
+}
+
+/* Sound Toggle */
+#sound-toggle {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.5);
+    border: none;
+    color: var(--gold);
+    font-size: 1.5rem;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 100;
+    transition: transform 0.2s;
+}
+#sound-toggle:active { transform: scale(0.9); }
+
+/* Overlay */
+.instruction-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 50;
+    padding: 20px;
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+.instruction-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.instruction-overlay p {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 30px;
+    color: var(--saffron);
+}
+
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 20px;
+    background: rgba(0,0,0,0.7);
+    border-radius: 15px;
+    border: 1px solid var(--orange);
+    margin-bottom: 20px;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--gold);
+}
+
+/* How To Play */
+.cards-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 15px;
+    border-left: 4px solid var(--orange);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* Game Areas */
+.game-area {
+    position: relative;
+    flex: 1;
+    background: rgba(0,0,0,0.3);
+    border-radius: 15px;
+    margin-bottom: 15px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+/* Pandal Spots */
+.pandal-spot {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: rgba(255,255,255,0.2);
+    border: 2px dashed var(--gold);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    transition: all 0.3s;
+    overflow: hidden;
+}
+
+.pandal-spot.filled {
+    background: rgba(255, 183, 3, 0.3);
+    border: 2px solid var(--gold);
+    animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.deco-img {
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+}
+
+@keyframes pop {
+    0% { transform: translate(-50%, -50%) scale(0.5); }
+    100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+/* Rangoli */
+#rangoli-canvas {
+    flex: 1;
+    width: 100%;
+    background: rgba(0,0,0,0.3);
+    border-radius: 15px;
+    margin-bottom: 15px;
+    touch-action: none; /* prevent scrolling while drawing */
+}
+
+/* Puja Items */
+.puja-item {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5rem;
+    cursor: pointer;
+    transition: transform 0.1s;
+    user-select: none;
+}
+.puja-item:active { transform: scale(0.9); }
+
+.puja-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.5));
+}
+
+/* Rhythm */
+.rhythm-target {
+    position: absolute;
+    bottom: 20px;
+    width: 80%;
+    height: 60px;
+    border: 2px solid var(--gold);
+    border-radius: 10px;
+    background: rgba(255, 183, 3, 0.1);
+}
+.rhythm-note {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: var(--primary-red);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    color: white;
+    box-shadow: 0 0 10px var(--primary-red);
+}
+.rhythm-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+.rhythm-btn {
+    flex: 1;
+    margin: 0 5px;
+    padding: 15px 0;
+    background: var(--dark-charcoal);
+    border: 2px solid var(--orange);
+    color: var(--cream);
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+    touch-action: manipulation;
+}
+.rhythm-btn:active {
+    background: var(--orange);
+    color: var(--dark-charcoal);
+}
+
+/* Eco Question */
+.question-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+}
+.eco-choice {
+    background: rgba(255,255,255,0.1);
+    border: 2px solid var(--eco-green);
+    padding: 20px;
+    border-radius: 15px;
+    color: var(--cream);
+    font-size: 1.1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.eco-choice:active {
+    background: var(--eco-green);
+}
+.eco-feedback {
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--gold);
+    margin-top: 15px;
+    min-height: 30px;
+}
+
+/* Result */
+.result-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.6);
+    border: 2px solid var(--gold);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.result-card h2 { color: var(--gold); margin-bottom: 5px; }
+.result-card p { color: var(--saffron); margin-bottom: 20px; }
+.score-breakdown {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.score-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 5px;
+}
+#final-rank {
+    color: var(--orange);
+    font-size: 2rem;
+    text-shadow: 0 0 10px rgba(247, 127, 0, 0.5);
+    margin-top: 10px;
+    text-align: center;
+}
+
+/* Mushak Sprint Stage */
+#mushak-area {
+    position: relative;
+    flex: 1;
+    width: 100%;
+    background: rgba(0,0,0,0.4);
+    border-radius: 15px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+#mushak-player {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2.8rem;
+    transition: left 0.08s ease-out;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.6));
+    user-select: none;
+    touch-action: none;
+}
+
+.modak-item {
+    position: absolute;
+    font-size: 2rem;
+    user-select: none;
+    filter: drop-shadow(0 2px 5px rgba(255, 183, 3, 0.6));
+}
+
+.mushak-controls {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.mushak-btn {
+    flex: 1;
+    padding: 15px 0;
+    background: linear-gradient(135deg, var(--orange), var(--primary-red));
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    touch-action: manipulation;
+}
+
+.mushak-btn:active {
+    transform: scale(0.95);
+    filter: brightness(1.2);
+}
+
+/* Toast Popup */
+.toast {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--gold);
+    color: var(--dark-charcoal);
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: 1rem;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    z-index: 1000;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+}
+
+.toast.hidden {
+    opacity: 0;
+    transform: translate(-50%, 20px);
+}
+
